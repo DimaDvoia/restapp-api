@@ -17,16 +17,22 @@ console.log('Connecting to database...');
 
 // Настройка CORS
 app.use(cors({
-  origin: ['http://127.0.0.1:5501', 'https://dimadvoia.github.io'],
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Telegram-WebApp-Version'],
-  credentials: true
+  allowedHeaders: ['Content-Type', 'Authorization', 'Telegram-WebApp-Version', 'Origin', 'Accept'],
+  exposedHeaders: ['Content-Length', 'Content-Type']
 }));
 
 app.use(express.json());
 
 // Обработка OPTIONS запросов
 app.options('*', cors());
+
+// Добавляем middleware для логирования запросов
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
 
 // API для получения категорий меню
 app.get('/api/menu/categories', async (req, res) => {
