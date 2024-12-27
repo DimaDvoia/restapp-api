@@ -43,6 +43,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Добавляем пинг-роут
+app.get('/ping', (req, res) => {
+  res.send('pong');
+});
+
 // API для получения категорий меню
 app.get('/api/menu/categories', async (req, res) => {
   try {
