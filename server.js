@@ -15,8 +15,18 @@ const pool = new Pool({
 // Добавим логирование подключения
 console.log('Connecting to database...');
 
-app.use(cors());
+// Настройка CORS
+app.use(cors({
+  origin: ['http://127.0.0.1:5501', 'https://dimadvoia.github.io'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Telegram-WebApp-Version'],
+  credentials: true
+}));
+
 app.use(express.json());
+
+// Обработка OPTIONS запросов
+app.options('*', cors());
 
 // API для получения категорий меню
 app.get('/api/menu/categories', async (req, res) => {
